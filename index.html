@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>iPhone 모델 비교하기 (클론)</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0b0c;
+      --card:#101114;
+      --card-2:#0f1013;
+      --text:#e8e9eb;
+      --muted:#9aa0a6;
+      --brand:#0071e3;
+      --ring:#2a7fff55;
+      --chip:#1a1b20;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --radius: 22px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:var(--bg);color:var(--text);font-family:Pretendard,system-ui,-apple-system,Segoe UI,Roboto,Arial,Apple SD Gothic Neo,Noto Sans KR,sans-serif}
+    a{color:var(--brand);text-decoration:none}
+    .wrap{max-width:1120px;margin:0 auto;padding:40px 20px 80px}
+    header{text-align:center;margin-bottom:28px}
+    header h1{font-size:44px;line-height:1.2;margin:6px 0 8px;font-weight:800;letter-spacing:-.02em}
+    header .links{font-size:14px;color:var(--muted)}
+    header .links a{margin:0 6px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+    @media (max-width:1000px){.grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:720px){header h1{font-size:34px}.grid{grid-template-columns:1fr}}
+    .card{
+      background:linear-gradient(180deg,var(--card),var(--card-2));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:var(--radius);
+      padding:22px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .badge{position:absolute;left:18px;top:18px;background:#22c55e15;border:1px solid #22c55e55;color:#a7f3d0;padding:6px 10px;border-radius:999px;font-size:12px}
+    .model{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+    .model h3{margin:0;font-size:18px}
+    .phone{
+      background:radial-gradient(120% 90% at 50% -10%, #222 0%, #0c0d10 55%, #07080a 100%);
+      border-radius:32px;
+      width:260px; height:260px; margin:14px auto 8px;
+      display:grid;place-items:center;
+      position:relative;border:1px solid rgba(255,255,255,.08);
+    }
+    .phone svg{width:82%;height:auto;filter:drop-shadow(0 10px 24px rgba(0,0,0,.5))}
+    .colors{display:flex;gap:12px;justify-content:center;margin:8px 0 12px}
+    .dot{
+      width:22px;height:22px;border-radius:50%;
+      border:2px solid transparent;outline:1px solid rgba(255,255,255,.2);
+      cursor:pointer;position:relative;
+    }
+    .dot[data-active="true"]{border-color:#fff;outline-color:var(--ring)}
+    .meta{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:6px}
+    .price{font-weight:700}
+    .buy{
+      appearance:none;border:0;border-radius:999px;
+      background:var(--brand);color:white;padding:10px 18px;
+      font-weight:700;cursor:pointer;transition:transform .08s ease, box-shadow .2s ease;
+      box-shadow:0 8px 18px rgba(0,113,227,.25);
+    }
+    .buy:active{transform:translateY(1px)}
+    .more{font-size:13px;color:var(--muted)}
+    .footnote{color:var(--muted);font-size:12px;text-align:center;margin-top:30px}
+    /* tooltip label under color row */
+    .label{font-size:12px;color:var(--muted);text-align:center;margin-top:2px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>iPhone 모델 비교하기</h1>
+      <div class="links">
+        <a href="#">iPhone 쇼핑하기 ▸</a> | 
+        <a href="#">스페셜리스트와 상담하기 ▸</a>
+      </div>
+    </header>
+
+    <section class="grid">
+
+      <!-- Card 1 -->
+      <article class="card" data-sku="iphone-17-pro-max">
+        <span class="badge">New</span>
+        <div class="model">
+          <h3>iPhone 17 Pro Max</h3>
+          <span style="color:var(--muted);font-size:12px">▾</span>
+        </div>
+
+        <!-- phone mock (SVG) -->
+        <div class="phone" aria-hidden="true">
+          <!-- big camera island + screen motif -->
+          <svg viewBox="0 0 400 800" fill="none">
+            <!-- body -->
+            <rect x="40" y="20" rx="55" ry="55" width="320" height="760" stroke="rgba(255,255,255,.18)" stroke-width="6" />
+            <!-- screen -->
+            <rect x="62" y="120" rx="30" width="276" height="616" fill="#0f1116" stroke="rgba(255,255,255,.08)"/>
+            <!-- dynamic island -->
+            <rect x="150" y="70" rx="18" width="100" height="28" fill="#0f1116" stroke="rgba(255,255,255,.12)"/>
+            <!-- abstract “pro” swirl -->
+            <path id="art1" d="M85 220 h230 a40 40 0 0 1 0 80 h-230 a40 40 0 0 0 0 80 h230 a40 40 0 0 1 0 80 h-230 a40 40 0 0 0 0 80 h230" stroke="#ff8c3a" stroke-width="18" stroke-linecap="round" fill="none" opacity=".95"/>
+          </svg>
+        </div>
+
+        <div class="colors" role="listbox" aria-label="색상 선택">
+          <button class="dot" style="background:#ff8c3a" aria-label="코스믹 오렌지" data-color="#ff8c3a" data-active="true"></button>
+          <button class="dot" style="background:#2b2d30" aria-label="티타늄 블랙" data-color="#b0b6c2"></button>
+        </div>
+        <div class="label">코스믹 오렌지</div>
+
+        <div class="meta">
+          <div class="price">₩1,990,000부터</div>
+          <button class="buy">구입하기</button>
+          <a class="more" href="#">더 알아보기 ▸</a>
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="card" data-sku="iphone-air">
+        <span class="badge">New</span>
+        <div class="model">
+          <h3>iPhone Air</h3>
+          <span style="color:var(--muted);font-size:12px">▾</span>
+        </div>
+
+        <div class="phone">
+          <svg viewBox="0 0 400 800" fill="none">
+            <rect x="40" y="20" rx="55" width="320" height="760" stroke="rgba(255,255,255,.18)" stroke-width="6"/>
+            <rect x="62" y="120" rx="30" width="276" height="616" fill="#0f1116" stroke="rgba(255,255,255,.08)"/>
+            <rect x="150" y="70" rx="18" width="100" height="28" fill="#0f1116" stroke="rgba(255,255,255,.12)"/>
+            <!-- airy tiles -->
+            <g id="art2" stroke="#bcd8ff" stroke-width="14">
+              <rect x="90" y="180" rx="26" width="220" height="120" fill="none"/>
+              <rect x="90" y="330" rx="26" width="220" height="120" fill="none"/>
+              <rect x="90" y="480" rx="26" width="220" height="120" fill="none"/>
+            </g>
+          </svg>
+        </div>
+
+        <div class="colors">
+          <button class="dot" style="background:#d2e6ff" aria-label="스카이 블루" data-color="#bcd8ff" data-active="true"></button>
+          <button class="dot" style="background:#eeeeee" aria-label="화이트" data-color="#e9eef4"></button>
+          <button class="dot" style="background:#e6e6e6" aria-label="실버" data-color="#d7dde6"></button>
+          <button class="dot" style="background:#000000" aria-label="블랙" data-color="#b5b5b5"></button>
+        </div>
+        <div class="label">스카이 블루</div>
+
+        <div class="meta">
+          <div class="price">₩1,590,000부터</div>
+          <button class="buy">구입하기</button>
+          <a class="more" href="#">더 알아보기 ▸</a>
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="card" data-sku="iphone-17">
+        <span class="badge">New</span>
+        <div class="model">
+          <h3>iPhone 17</h3>
+          <span style="color:var(--muted);font-size:12px">▾</span>
+        </div>
+
+        <div class="phone">
+          <svg viewBox="0 0 400 800" fill="none">
+            <rect x="40" y="20" rx="55" width="320" height="760" stroke="rgba(255,255,255,.18)" stroke-width="6"/>
+            <rect x="62" y="120" rx="30" width="276" height="616" fill="#0f1116" stroke="rgba(255,255,255,.08)"/>
+            <rect x="150" y="70" rx="18" width="100" height="28" fill="#0f1116" stroke="rgba(255,255,255,.12)"/>
+            <!-- flower burst -->
+            <g id="art3" opacity="0.95">
+              <circle cx="200" cy="428" r="26" fill="#e8caff"/>
+              <g fill="none" stroke="#e8caff" stroke-width="18" stroke-linecap="round">
+                <path d="M200 240 v120"/>
+                <path d="M200 498 v120"/>
+                <path d="M92 428 h120"/>
+                <path d="M208 428 h120"/>
+                <path d="M120 320 l84 84"/>
+                <path d="M280 320 l-84 84"/>
+                <path d="M120 536 l84-84"/>
+                <path d="M280 536 l-84-84"/>
+              </g>
+            </g>
+          </svg>
+        </div>
+
+        <div class="colors">
+          <button class="dot" style="background:#d7c9ff" aria-label="라벤더" data-color="#e8caff" data-active="true"></button>
+          <button class="dot" style="background:#9fb6a5" aria-label="미스트 그린" data-color="#bfe0c7"></button>
+          <button class="dot" style="background:#9aa0a6" aria-label="실버 그레이" data-color="#cfd6dc"></button>
+          <button class="dot" style="background:#6f7a87" aria-label="블루 그레이" data-color="#a8b7cc"></button>
+          <button class="dot" style="background:#3a3b3e" aria-label="블랙" data-color="#b5b5b5"></button>
+        </div>
+        <div class="label">라벤더</div>
+
+        <div class="meta">
+          <div class="price">₩1,290,000부터</div>
+          <button class="buy">구입하기</button>
+          <a class="more" href="#">더 알아보기 ▸</a>
+        </div>
+      </article>
+
+    </section>
+
+    <p class="footnote">※ 이 페이지는 학습/포트폴리오용 클론 UI입니다. 상표 및 상용명은 각 소유자의 자산입니다.</p>
+  </div>
+
+  <script>
+    // 간단한 상호작용: 색상 점을 누르면 각 모델의 포스터 아트 색이 바뀌고 라벨/선택 상태 업데이트
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card=>{
+      const dots = card.querySelectorAll('.dot');
+      const label = card.querySelector('.label');
+
+      dots.forEach(dot=>{
+        dot.addEventListener('click', ()=>{
+          dots.forEach(d=>d.dataset.active="false");
+          dot.dataset.active="true";
+          label.textContent = dot.getAttribute('aria-label');
+
+          const color = dot.dataset.color;
+          const sku = card.dataset.sku;
+
+          // 각 모델의 대표 SVG path/group id에 스트로크/필 색상 반영
+          if(sku==='iphone-17-pro-max'){
+            const path = card.querySelector('#art1');
+            path && (path.setAttribute('stroke', color));
+          }else if(sku==='iphone-air'){
+            const group = card.querySelector('#art2');
+            if(group){
+              [...group.children].forEach(r=>r.setAttribute('stroke', color));
+            }
+          }else if(sku==='iphone-17'){
+            const g = card.querySelector('#art3');
+            if(g){
+              const center = g.querySelector('circle');
+              center && center.setAttribute('fill', color);
+              [...g.querySelectorAll('path')].forEach(p=>p.setAttribute('stroke', color));
+            }
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
